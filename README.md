@@ -1,3 +1,3 @@
-# Onboarding
+# API Starter
 
-completed onboarding API project.
+A simple _starter-kit_ for developing DORR-style APIs.
