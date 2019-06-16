@@ -66,6 +66,17 @@ exports.cleanList = function(elm) {
   return coll;
 }
 
+// generate a unique id 
+exports.makeId = function() {
+  var rtn;
+
+  rtn = String(Math.random());
+  rtn = rtn.substring(2);
+  rtn = parseInt(rtn).toString(36);
+
+  return rtn;
+}
+
 // craft an external error response (anything, really)
 exports.errorResponse = function(req, res, msg, code, description) {
   var doc;
