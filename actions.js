@@ -22,7 +22,6 @@ var properties = require('./properties');
   });
 }
 
-/**************************
 module.exports.create = function(req,res) {
   return new Promise(function(resolve,reject) {
     if(req.body) {
@@ -52,6 +51,7 @@ module.exports.list = function(req,res) {
   });
 }
 
+/********
 module.exports.filter = function(req,res) {
   return new Promise(function(resolve,reject){
     if(req.query && req.query.length!==0) {

@@ -48,9 +48,14 @@ router.get('/',function(req,res){
   utils.handler(req,res,actions.blank, 'home', representor) 
 });
 
+// create a new record
+router.post("/list",function(req,res){
+  utils.handler(req,res,actions.create,'list',representor);
+});
+
 // list of records
 router.get('/list',function(req,res){
-  utils.handler(req,res,actions.blank, 'list', representor) 
+  utils.handler(req,res,actions.list, 'list', representor) 
 });
 
 // single record

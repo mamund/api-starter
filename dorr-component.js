@@ -101,7 +101,7 @@ function addEntry(elm, entry, props, reqd, enums) {
       }
     }
   }
-  
+ 
   if(error.length!==0) {
     rtn = utils.exception(error);
   }

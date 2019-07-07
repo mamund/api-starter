@@ -149,7 +149,7 @@ function addItem(object, item, id) {
       s3ObjectWrite(folder+'-'+object, item.id, JSON.stringify(item));
       rtn = getItem(object, item.id);
     } catch (ex) {
-      rtn = exeption("SimpleStorage: ["+object+"]", ex.message, 400);
+      rtn = exception("SimpleStorage: ["+object+"]", ex.message, 400);
     }
   }
   return rtn;
