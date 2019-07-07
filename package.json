@@ -27,6 +27,7 @@
   },
   "homepage": "https://github.com/mamund/api-starter#readme",
   "dependencies": {
+    "aws-sdk": "^2.488.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "ejs": "^2.6.2",

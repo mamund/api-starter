@@ -1,9 +1,9 @@
-/*`******************************************************
+/*******************************************************
  * component middleware module (DORR)
  * Mike Amundsen (@mamund)
  *******************************************************/
 
-var storage = require('./dorr-storage');
+var storage = require('./dorr-storage-s3');
 var utils = require('./dorr-utils');
 
 module.exports = main;
