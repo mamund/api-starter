@@ -264,6 +264,9 @@ exports.handler = function(req, res, fn, type, representor){
     }
     else {
       oType = type||"item";
+      if(!body) {
+        body = {}
+      };
       if(body.type && body.type==='error') {
         xr.push(exception(
           body.name,

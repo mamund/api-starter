@@ -142,16 +142,20 @@ function addItem(object, item, id) {
   item.dateCreated = new Date();
   item.dateUpdated = item.dateCreated;
 
-  console.log(item);
-
   s3ObjectExists(folder+'-'+object,item.id).then(
     function(results) {
-      s3ObjectWrite(folder+'-'+object, item.id, JSON.stringify(item)).then(
-        function(results){return getItem(object,item.id);},
-	function(err) {return exception("S3Storage: ["+object+"]","Error writing item");}
-      );
+      return exception("S3Storage: ["+object+"]","Record already exists");
     },
-    function(err) {return exception("S3Storage: ["+object+"]","Record already exists");}
+    function(err) {
+      s3ObjectWrite(folder+'-'+object, item.id, JSON.stringify(item)).then(
+        function(results) {
+          return getItem(object,item.id);
+        },
+        function(err) {
+          return exception("S3Storage: ["+object+"]", "Error writing item");
+        }
+      );
+    }
   );
 }
 
@@ -263,7 +267,7 @@ function s3ObjectRead(bucket, key) {
     var params = {};
     params.Bucket = bucket;
     params.Key = key;
-    s3.getObjects(params,function(err,data) {
+    s3.getObject(params,function(err,data) {
       if(err) {
         reject(err);
       }

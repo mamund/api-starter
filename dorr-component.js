@@ -35,9 +35,7 @@ function main(args) {
  
   // confirm existence of object storage
   
-  console.log(elm);
   var x = storage({action:'create',object:elm});
-  console.log(x);
 
   // handle action request
   switch (action) {
@@ -117,7 +115,6 @@ function addEntry(elm, entry, props, reqd, enums) {
       }
     );
   }
-  
   return rtn;
 }
 
@@ -168,8 +165,6 @@ function updateEntry(elm, id, entry, props, reqd, enums) {
       );
     }
   }
-  
-  console.log(rtn);
   
   return rtn;
 }
