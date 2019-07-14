@@ -34,7 +34,10 @@ function main(args) {
   enums = args.enums||[];
  
   // confirm existence of object storage
-  storage({action:'create',object:elm});
+  
+  console.log(elm);
+  var x = storage({action:'create',object:elm});
+  console.log(x);
 
   // handle action request
   switch (action) {

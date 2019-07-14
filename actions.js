@@ -5,6 +5,7 @@
 
 var component = require('./dorr-component');
 var properties = require('./properties');
+var utils = require('./dorr-utils');
 
 /*****************************************
  * action handlers for service

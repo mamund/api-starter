@@ -265,7 +265,7 @@ exports.handler = function(req, res, fn, type, representor){
     else {
       oType = type||"item";
       if(body.type && body.type==='error') {
-        xr.push(utils.exception(
+        xr.push(exception(
           body.name,
           body.message,
           body.code,

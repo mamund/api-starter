@@ -15,6 +15,7 @@
  - NOTE: all actions are *synchronous* 
 */
 
+var utils = require('./dorr-utils');
 var AWS = require('aws-sdk');
 var s3 = new AWS.S3();
 
@@ -108,26 +109,25 @@ function getList(object, filter) {
 function getItem(object, id) {
   var rtn;
 
-  try {
-    rtn = s3ObjectRead(folder+'-'+ object,id);
-  } catch (ex) {
-    rtn = exception("SimpleStorage: ["+object+"]", ex.message, 400);
-  }
-
-  return rtn;
+  s3ObjectRead(folder+'-'+object,id).then(
+    function(result){return result},
+    function(err) {return exception("S3Storage: ["+object+"]", "Unable to read item", 400);}
+  );
 }
 
 // create a storage object (folder)
 function createObject(object) {
+  var rt = false;
   try {
-    if(folder && folder !==null) {
-      if(!s3BucketExists(folder+'-'+object)) {
-        s3BucketCreate(folder+'-'+object);
-      }
-    }
+    s3BucketExists(folder+'-'+object).then(
+      function(results){return true},
+      function(err){s3BucketCreate(folder+'-'+object).then(true)}
+    );
+    rt = true;
   } catch(ex) {
-    rtn = exception("S3Storage: ["+object+"]", ex.message, 400);
+    rt = exception("S3Storage: ["+object+"]", ex.message, 400);
   }
+  return rt;
 }
 
 // add a new item
@@ -142,17 +142,17 @@ function addItem(object, item, id) {
   item.dateCreated = new Date();
   item.dateUpdated = item.dateCreated;
 
-  if (s3ObjectExists(folder+'-'+object,item.id)) {
-    rtn = exception("SimpleStorage: ["+object+"]", "Record already exists");
-  } else {
-    try {
-      s3ObjectWrite(folder+'-'+object, item.id, JSON.stringify(item));
-      rtn = getItem(object, item.id);
-    } catch (ex) {
-      rtn = exception("SimpleStorage: ["+object+"]", ex.message, 400);
-    }
-  }
-  return rtn;
+  console.log(item);
+
+  s3ObjectExists(folder+'-'+object,item.id).then(
+    function(results) {
+      s3ObjectWrite(folder+'-'+object, item.id, JSON.stringify(item)).then(
+        function(results){return getItem(object,item.id);},
+	function(err) {return exception("S3Storage: ["+object+"]","Error writing item");}
+      );
+    },
+    function(err) {return exception("S3Storage: ["+object+"]","Record already exists");}
+  );
 }
 
 // modify an existing item
@@ -217,121 +217,101 @@ function exception(name, message, code, type, url) {
 }
 
 // S3 support routines
-
 function s3BucketExists(bucket) {
-  var rt = false;
-  var params = {};
-  params.Bucket = bucket;
-  
-  s3.headBucket(params, function(err,data) {
-    if(err) {
-      rt = false;
-    }
-    else {
-      rt = true;
-    }
-    return rt;
+  return new Promise(function(resolve,reject) {
+    var params = {};
+    params.Bucket = bucket;
+
+    s3.headBucket(params, function(err,data) {
+      if(err) {
+        reject(err);
+      }
+      resolve(data);
+    });
   });
 }
 
 function s3BucketCreate(bucket) {
-  rt = "";
-  var params = {};
-  params.Bucket = bucket;
-  
-  s3.createBucket(params, function(err,data) {
-    if(err) {
-     rt = false;
-    }
-    else {
-      rt = true;
-    }
-    return rt;
+  return new Promise(function(resolve,reject) {
+    var params = {};
+    params.Bucket = bucket;
+
+    s3.createBucket(params, function(err,data) {
+      if(err) {
+        reject(err);
+      }
+      resolve(data);
+    });
   });
-};
+}
 
 function s3ObjectList(bucket) {
-  rt = [];
-  var params = {};
-  params.Bucket = bucket;
-
-  s3.listObjects(params, function(err, data) {
-    if(err) {
-      rt = [];
-    }
-    else {
-      rt = data.Contents;
-    }
-    return rt;
+  return new Promise(function(resolve,reject) {
+    var params = {};
+    params.Bucket = bucket;
+    s3.listObjects(params, function(err,data) {
+      if(err) {
+        reject([]);
+      }
+      resolve(data.Contents);
+    });
   });
 }
 
 function s3ObjectRead(bucket, key) {
-  var rt = {};
-  var params = {};
-  params.Bucket = bucket;
-  params.Key = key;
-
-  s3.getObject(params, function(err,data) {
-    if(err) {
-      rt = {};
-    }
-    else {
-      rt = data.Body.toString('utf-8');
-    }
-    return rt;
+  return new Promise(function(resolve,reject) {
+    var params = {};
+    params.Bucket = bucket;
+    params.Key = key;
+    s3.getObjects(params,function(err,data) {
+      if(err) {
+        reject(err);
+      }
+      resolve(data.Body.toString('utf-8'));
+    });
   });
 }
 
 function s3ObjectExists(bucket, key) {
-  var rt = false;
-  var params = {};
-  params.Bucekt = bucket;
-  params.Key = key;
-
-  s3.headObject(params, function(err, data) {
-    if(err) {
-      rt = false;
-    }
-    else {
-      rt = true;
-    }
-    return rt;
+  return new Promise(function(resolve,reject) {
+    var params = {};
+    params.Bucket = bucket;
+    params.Key = key;
+    s3.headObject(params,function(err,data) {
+      if(err) {
+        reject(err);
+      }
+      resolve(data);
+    });
   });
 }
 
 function s3ObjectWrite(bucket, key, body) {
-  var rt = false;
-  var parsm = {};
-  params.Bucket = bucket;
-  params.Key = key;
-  params.Body = body;
-
-  s3.putObject(params, function(err,data) {
-    if(err) {
-      rt = false;
-    } 
-    else {
-      rt = true;
-    }
-    return rt;
+  return new Promise(function(resolve,reject) {
+    var params = {};
+    params.Bucket = bucket;
+    params.Key = key;
+    params.Body = body;
+    s3.putObject(params,function(err,data) {
+      if(err) {
+        reject(err);
+      }
+      resolve(data);
+    });
   });
 }
 
 function s3ObjectDelete(bucket, key) {
-  var rt = false;
-  var params = {};
-  params.Bucket = bucket;
-  params.Key = key;
-
-  s3.deleteObject(params, function(err, data) {
-    if(err) {
-      rt = false;
-    }
-    else {
-      rt = true;
-    }
-    return rt;
+  return new Promise(function(resolve,reject) {
+    var params = {};
+    params.Bucket = bucket;
+    params.Key = key;
+    s3.deleteObject(params,function(err,data) {
+      if(err) {
+        reject(err);
+      }
+      resolve(data);
+    });
   });
 }
 
