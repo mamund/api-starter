@@ -1,37 +1,33 @@
 {
   "name": "api-starter",
   "version": "1.0.0",
-  "description": "a simple starter kit for developing DORR-style APIs",
+  "description": "DARRT starter project",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index",
-    "debug": "node --inspect index"
+    "dev": "nodemon index"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mamund/api-starter.git"
+    "url": "git+https://github.com/api-tool-kit/api-starter.git"
   },
   "keywords": [
-    "DORR",
-    "API",
-    "starter",
     "mamund",
-    "amundsen",
-    "goto",
-    "bigco"
+    "apitoolkit",
+    "bigco",
+    "pragprog"
   ],
-  "author": "Mike Amundsen",
+  "author": "Mike Amundsen (@mamund)",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/mamund/api-starter/issues"
+    "url": "https://github.com/api-tool-kit/api-starter/issues"
   },
-  "homepage": "https://github.com/mamund/api-starter#readme",
+  "homepage": "https://github.com/api-tool-kit/api-starter#readme",
   "dependencies": {
-    "aws-sdk": "^2.488.0",
-    "body-parser": "^1.19.0",
+    "body-parser": "^1.18.3",
     "cors": "^2.8.5",
-    "ejs": "^2.6.2",
-    "express": "^4.17.1"
+    "ejs": "^2.6.1",
+    "express": "^4.16.4"
   }
 }

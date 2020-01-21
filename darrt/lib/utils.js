@@ -1,5 +1,4 @@
 /*******************************************************
- * service: disco registry
  * module: internal utilities
  * Mike Amundsen (@mamund)
  *******************************************************/
@@ -9,6 +8,7 @@ var qs = require('querystring');
 var folder = process.cwd() + '/files/';
 var ejs = require('ejs');
 var jsUtil = require('util');
+var ejsHelper = require('./ejs-helpers');
 
 // for handling hal-forms extension
 var halFormType = "application/prs.hal-forms+json";
@@ -231,19 +231,25 @@ function exception(name, message, code, type, url) {
 // ejs-dependent response emitter
 // handle formatting response
 // depends on ejs templating
-//exports.handler = function(req, res, fn, type, templates, actions){
-exports.handler = function(req, res, fn, type, representor){
+exports.handler = function(req, res, fn, type, representation){
   var rtn = {};
   var xr = [];
   var oType = type||"collection";
-  var represent = representor||{};
-  var template = resolveAccepts(req, represent.templates);
-  //var linksForms = actions||{}  
-  var pLinks = represent.pageLinks||[];
-  var iLinks = represent.itemLinks||[];
-  var pForms = represent.pageForms||[];
-  var iForms = represent.itemForms||[];
+
+  var filter = representation.filter||"";
+  var templates = representation.templates||[];
+  var template = resolveAccepts(req, templates);
+
+  var forms = representation.forms||{};
+  var pForms = forms.pageForms||[];
+  var iForms = forms.itemForms||[];
   
+  var metadata = representation.metadata||[];
+  
+  pForms = tagFilter(pForms,filter);
+  iForms = tagFilter(iForms,filter);
+  metadata = tagFilter(metadata,filter);
+    
   fn(req,res).then(function(body) {
     if(jsUtil.isArray(body)===true) {
       oType = type||"collection";
@@ -264,13 +270,10 @@ exports.handler = function(req, res, fn, type, representor){
     }
     else {
       oType = type||"item";
-      if(!body) {
-        body = {}
-      };
       if(body.type && body.type==='error') {
         xr.push(exception(
           body.name,
-          body.message,
+          body.detail,
           body.code,
           body.oType,
           'http://' + req.headers.host + req.url
@@ -283,20 +286,24 @@ exports.handler = function(req, res, fn, type, representor){
       } 
     }
 
-    var reply = "";
-    rtn = {rtn:rtn,pLinks:pLinks,iLinks:iLinks,pForms:pForms,iForms:iForms,type:oType};
-    if(template.view!=="") {
-      reply= ejs.render(template.view,rtn);
+    if(oType==="error") {
+      res.status(rtn.code||400).send(JSON.stringify({error:rtn},null,2));      
     }
     else {
-      reply = JSON.stringify(rtn, null, 2);
+      var reply = "";
+      rtn = {rtn:rtn,type:oType, pForms:pForms,iForms:iForms, metadata:metadata, helpers:ejsHelper, request:req};
+      if(template.view!=="") {
+        reply= ejs.render(template.view, rtn);
+      }
+      else {
+        reply = JSON.stringify(rtn, null, 2);
+      }
+      // clean up blank lines
+      reply = reply.replace(/^\s*$[\n\r]{1,}/gm, '');
+      
+      res.type(template.format);
+      res.send(reply);
     }
-    // clean up blank lines
-    reply = reply.replace(/^\s*$[\n\r]{1,}/gm, '');
-    
-    res.type(template.format);
-    res.send(reply);
-
   }).catch(function(err) {
     xr.push(exception(
       "Server error",
@@ -305,15 +312,19 @@ exports.handler = function(req, res, fn, type, representor){
       "error",
       'http://' + req.headers.host + req.url
     ));
-    res.send(JSON.stringify({error:xr},null,2));
+    res.status(500).send(JSON.stringify({error:xr},null,2));
   });
 }
 
+function sayHi(name) {
+    return 'Hello ' + name;
+};
 
 // sort out accept header
 function resolveAccepts(req, templates) {
   var rtn = "";
   var fallback = {format:"application/json",view:""};
+  
   templates.forEach(function(template) {
     if(rtn==="" && req.accepts(template.format)) {
       rtn = template;
@@ -321,6 +332,31 @@ function resolveAccepts(req, templates) {
   });
   if(rtn==="") {
     rtn = fallback;
+  }
+  return rtn;
+}
+
+// tag filter
+function tagFilter(collection, filter) {
+  var coll = collection||[];
+  var tag = filter||"";
+  var rtn = [];
+  
+  if(tag==="") {
+    rtn = coll;
+  }
+  else {
+    coll.forEach(function(item) {
+      f = item.tags||"";
+      if(f==="") {
+        rtn.push(item);
+      }
+      else {
+        if(f.indexOf(tag)!==-1) {
+          rtn.push(item);
+        }
+      }
+    });
   }
   return rtn;
 }

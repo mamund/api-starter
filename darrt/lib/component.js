@@ -1,15 +1,15 @@
-/*******************************************************
- * component middleware module (DORR)
+/*`******************************************************
+ * component middleware module (DARRT)
  * Mike Amundsen (@mamund)
  *******************************************************/
 
-var storage = require('./dorr-storage-s3');
-var utils = require('./dorr-utils');
+var storage = require('./storage');
+var utils = require('./utils');
 
 module.exports = main;
 
 // **********************************************************************
-// DORR OBJECT Module
+// DARRT component handler
 // args: name, props, reqd, action, id, filter, item
 //
 // on writes, supports 
@@ -32,10 +32,11 @@ function main(args) {
   item = args.item||{};
   reqd = args.reqd||[];
   enums = args.enums||[];
- 
-  // confirm existence of object storage
+  defs = args.defs||[];
+  fields = args.fields||"";
   
-  var x = storage({action:'create',object:elm});
+  // confirm existence of object storage
+  storage({action:'create',object:elm});
 
   // handle action request
   switch (action) {
@@ -49,17 +50,17 @@ function main(args) {
       rtn = profile;
       break;
     case 'list':
-      rtn = utils.cleanList(storage({object:elm, action:'list'}));
+      rtn = utils.cleanList(storage({object:elm, action:'list', fields:fields}));
       break;
     case 'read':
     case 'item':
-      rtn = utils.cleanList(storage({object:elm, action:'item', id:id}));
+      rtn = utils.cleanList(storage({object:elm, action:'item', id:id, fields:fields}));
       break;
     case 'filter':
-      rtn = utils.cleanList(storage({object:elm, action:'filter', filter:filter}));
+      rtn = utils.cleanList(storage({object:elm, action:'filter', filter:filter, fields:fields}));
       break
     case 'add':
-      rtn = addEntry(elm, item, props, reqd, enums);
+      rtn = addEntry(elm, item, props, reqd, enums, defs);
       break;
     case 'update':
       rtn = updateEntry(elm, id, item, props, reqd, enums);
@@ -72,19 +73,31 @@ function main(args) {
       rtn = null;
       break;
   }
-  return rtn;
+ 
+  /* return a promise object */	
+  return new Promise(function(resolve, reject) {
+    if(rtn) {
+      resolve(rtn);
+    }
+    else {
+      reject({error:"unable to process component request"});
+    }
+  });
 }
 
 function addEntry(elm, entry, props, reqd, enums) {
-  var rtn, item, error;
+  var rtn, item, error, id;
  
   item = {}
   for(i=0,x=props.length;i<x;i++) {
     if(props[i]!=="id") {
       item[props[i]] = (entry[props[i]]||"");
     }
+    else {
+      id = entry[props[i]];
+    }
   }
-
+  
   error = "";
   for(i=0,x=reqd.length;i<x;i++) {
     if(item[reqd[i]]==="") {
@@ -102,7 +115,7 @@ function addEntry(elm, entry, props, reqd, enums) {
       }
     }
   }
- 
+  
   if(error.length!==0) {
     rtn = utils.exception(error);
   }
@@ -111,10 +124,12 @@ function addEntry(elm, entry, props, reqd, enums) {
       {
         object:elm, 
         action:'add', 
-        item:utils.setProps(item,props)
+        item:utils.setProps(item,props),
+        id
       }
     );
   }
+  
   return rtn;
 }
 
