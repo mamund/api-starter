@@ -129,7 +129,7 @@ function getItem(object, id, fields) {
 function applyFields(item,fields) {
   var rtn = {};
   
-  if(fields.length!==0) {
+  if(fields && fields.length!==0) {
     for(var i in item) {
       if(fields.indexOf(i)!==-1) {
         rtn[i] = item[i];
@@ -181,7 +181,7 @@ function addItem(object, item, id) {
       fs.writeFileSync(folder + object + '/' + item.id, JSON.stringify(item));
       rtn = getItem(object, item.id);
     } catch (ex) {
-      rtn = exeption("SimpleStorage: ["+object+"]", ex.message, 400);
+      rtn = exception("SimpleStorage: ["+object+"]", ex.message, 400);
     }
   }
   return rtn;

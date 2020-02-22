@@ -118,7 +118,7 @@ module.exports.status = function(req,res) {
     body = req.body||null;
     if(id!==null && body!==null) {
        resolve(component(
-         {name:'company',
+         {name:object,
           action:'update',
           id:id,
           item:body,

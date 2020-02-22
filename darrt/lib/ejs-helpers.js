@@ -16,18 +16,26 @@ exports.stateValue = function(val, state, request, def) {
   var d = def||v;
   var x=0;
   req = request||{};
-  
+  var hst = "";
+  var pxy = "";
+  var aty = "";
+
+  // compute HTTP authority & check for proxied requests  
+  pxy = (req.get && req.get("proxy-prefix") ? req.get("proxy-prefix") : "");
+  hst = (req.get && req.get("host") ? req.get("host") : "");
+  aty = (pxy !== "" ? pxy : hst);
+   
   // handle special macros
   if(v.indexOf("{makeid}")!==-1) {
     v = v.replace("{makeid}",makeId());
     x=1
   }
   if(v.indexOf("{fullurl}")!==-1) {
-    v = v.replace("{fullurl}",(req ? req.protocol : "http") + "://" + (req.get ? req.get("Host") : "") + (req ? req.originalUrl : "/"));
+    v = v.replace("{fullurl}",(req ? req.protocol : "http") + "://" + aty + (req ? req.originalUrl : "/"));
     x=1;
   }
   if(v.indexOf("{fullhost}")!==-1) {
-    v = v.replace("{fullhost}",(req ? req.protocol : "http") + "://"+ (req.get ? req.get("Host") : ""));  
+    v = v.replace("{fullhost}",(req ? req.protocol : "http") + "://"+ aty );  
     x=1;
   }
   
