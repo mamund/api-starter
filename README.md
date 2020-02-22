@@ -1,6 +1,6 @@
 # API Starter
 
-A simple _starter-kit_ for developing DORR-style APIs.
+A simple _starter-kit_ for developing DARRT-style APIs.
 
 ## Set up your project
 1. Clone this repo (or just copy the dartt folder index.js files) into your own project folder.
@@ -15,7 +15,7 @@ The DARRT folder holds the framework base files.
 
 ### Update the `darrt/data.js` file
 This defines that state that is passed back and forth
- * properties
+ * properties (MUST include id, dateCreated, & dateUpdate, SHOULD include stats)
  * enums
  * requireds
  * defaults
