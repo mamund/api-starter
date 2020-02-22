@@ -15,7 +15,7 @@ The DARRT folder holds the framework base files.
 
 ### Update the `darrt/data.js` file
 This defines what state is passed back and forth
- * properties (MUST include id, dateCreated, & dateUpdate, SHOULD include stats)
+ * properties (MUST include `id`, `dateCreated`, & `dateUpdated`; SHOULD include `status`)
  * enums
  * requireds
  * defaults
