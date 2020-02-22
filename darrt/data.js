@@ -5,7 +5,9 @@
 // 2020-02-01 : mamund
 // ****************************************
 
+
 // this service's message properties
+// you MUST include id, dateCreated, and dateUpdated
 exports.props = [
   'id',
   'givenName',
@@ -18,7 +20,7 @@ exports.props = [
 ];
 
 // required properties
-exports.reqd = ['id',,'email','status'];
+exports.reqd = ['id','email','status'];
 
 // enumerated properties
 exports.enums = [

@@ -20,7 +20,7 @@ module.exports.home = function(req,res) {
     
     // hack to handle empty root for non-link types
     ctype = req.get("Accept")||"";
-    if("application/json text-csv".indexOf(ctype)!==-1) {
+    if("application/json text/csv */*".indexOf(ctype)!==-1) {
       body = {
         id:"list",
         name:"api-starter",
