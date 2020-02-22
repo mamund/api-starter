@@ -56,5 +56,5 @@ This file contains the response representations your service supports. This is b
 This file contains all the links and forms your service API will emit at runtime.  If you are only supporting `application/json` or `text/csv` or some other format that has no hypermedia support, you can ignore this step.
 
 ## Data Storage
-The current project just stores the passed state on disk in the `/data/` folder. This is handled by the `/darrt/lib/components.js` and '/darrt/lib/storage.js` files. You can use this local storage approach or update it to use more robust storage tooling yourself and just modify the dependencies. NOTE that in this release, storage is implemented without support for Promises. A future version will make storage fully 'then-able' to make adding remote adpaters easy to do.
+The current project just stores the passed state on disk in the `/data/` folder. This is handled by the `/darrt/lib/components.js` and `/darrt/lib/storage.js` files. You can use this local storage approach or update it to use more robust storage tooling yourself and just modify the dependencies. NOTE that in this release, storage is implemented without support for Promises. A future version will make storage fully 'then-able' to make adding remote adpaters easy to do.
 
