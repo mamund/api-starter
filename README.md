@@ -1,6 +1,6 @@
 # API Starter
 
-A simple _starter-kit_ for developing DARRT-style APIs.
+A simple _starter-kit_ for developing *DARRT*-style APIs. *DARRT* is an acronym which stands for Data, Actions, Resources, Representations, & Transitions. The *DARRT* library is used in the book "Design and Build Great Web APIs" (https://pragprog.com/book/maapis/design-and-build-great-web-apis).
 
 ## Set up your project
 1. FORK this repo (or just copy the dartt folder index.js files) into your own project folder.
@@ -20,7 +20,7 @@ This defines what state is passed back and forth
  * requireds
  * defaults
 
-### update the `darrt/actions.js` file
+### Update the `darrt/actions.js` file
 This implements the internal functionality your service supports through a series of exported functions. See the included `actions.js` for examples.
  
 ### Update the `darrt/resources.js` file
