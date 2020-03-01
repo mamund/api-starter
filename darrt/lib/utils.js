@@ -209,7 +209,7 @@ exports.exception = function(name, message, code, type, url) {
   rtn.type = (type||"error");
   rtn.title = (name||"Error");
   rtn.detail = (message||rtn.name);
-  rtn.status = (code||400);
+  rtn.status = (code||400).toString();
   if(url) {rtn.instance = url};
 
   return rtn;
@@ -222,7 +222,7 @@ function exception(name, message, code, type, url) {
   rtn.type = (type||"error");
   rtn.title = (name||"Error");
   rtn.detail = (message||rtn.name);
-  rtn.status = (code||400);
+  rtn.status = (code||400).toString();
   if(url) {rtn.instance = url};
 
   return rtn;
@@ -287,7 +287,8 @@ exports.handler = function(req, res, fn, type, representation){
     }
 
     if(oType==="error") {
-      res.status(rtn.code||400).send(JSON.stringify({error:rtn},null,2));      
+      res.setHeader("content-type","application/problem+json");
+      res.status(rtn.code||400).send(JSON.stringify({error:rtn},null,2));
     }
     else {
       var reply = "";
@@ -308,10 +309,11 @@ exports.handler = function(req, res, fn, type, representation){
     xr.push(exception(
       "Server error",
       err.message||"Internal error",
-      500,
+      '500',
       "error",
       'http://' + req.headers.host + req.url
     ));
+    res.setHeader("content-type","application/problem+json");      
     res.status(500).send(JSON.stringify({error:xr},null,2));
   });
 }
