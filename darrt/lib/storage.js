@@ -110,12 +110,17 @@ function getList(object, filter, fields) {
 
 // retrieve and existing item
 function getItem(object, id, fields) {
-  var rtn;
+  var rtn,args;
 
   try {
     rtn = JSON.parse(fs.readFileSync(folder + object + '/' + id));
   } catch (ex) {
-    rtn = exception("SimpleStorage: ["+object+"]", ex.message, 400);
+    args = {};
+    args.title = "SimpleStorage: ["+object+"]";
+    args.detail = "Not Found ["+id+"]";
+    args.code = 400;
+    args.debug = ex.message;
+    rtn = exception(args);
   }
 
   rtn = applyFields(rtn, fields);
@@ -146,6 +151,7 @@ function applyFields(item,fields) {
 
 // create a storage object (folder)
 function createObject(object) {
+  var args = {};
   try {
     if(folder && folder !==null) {
       if(!fs.existsSync(folder)) {
@@ -155,16 +161,25 @@ function createObject(object) {
     if(object && object !== null) {
       fs.mkdirSync(folder + object);
     } else {
-      rtn = exception("SimpleStorage: ["+object+"]", "unable to create object", 400);
+      args = {};
+      args.title = "SimpleStorage: ["+object+"]";
+      args.detail = "unable to create object";
+      args.code = 400;
+      rtn = exception(args);
     }
   } catch(ex) {
-    rtn = exception("SimpleStorage: ["+object+"]", ex.message, 400);
+    args = {};
+    args.title = "SimpleStorage: ["+object+"]";
+    args.detail = "error creating folder/object";
+    args.code = 400;
+    args.debug = ex.message;
+    rtn = exception(args);
   }
 }
 
 // add a new item
 function addItem(object, item, id) {
-  var rtn;
+  var rtn, args;
 
   if (id) {
     item.id = id;
@@ -175,13 +190,21 @@ function addItem(object, item, id) {
   item.dateUpdated = item.dateCreated;
 
   if (fs.existsSync(folder + object + '/' + item.id)) {
-    rtn = exception("SimpleStorage: ["+object+"]", "Record already exists");
+    args = {};
+    args.title = "SimpleStorage: ["+object+"]";
+    args.detail = "Record already exists";
+    rtn = exception(args);
   } else {
     try {
       fs.writeFileSync(folder + object + '/' + item.id, JSON.stringify(item));
       rtn = getItem(object, item.id);
     } catch (ex) {
-      rtn = exception("SimpleStorage: ["+object+"]", ex.message, 400);
+      args = {};
+      args.title = "SimpleStorage: ["+object+"]";
+      args.detail = "Unable to add item";
+      args.code = 400;
+      args.debug = ex.message;
+      rtn = exception(args);
     }
   }
   return rtn;
@@ -189,11 +212,14 @@ function addItem(object, item, id) {
 
 // modify an existing item
 function updateItem(object, item, id) {
-  var current, rtn;
+  var current, rtn, args;
 
   current = getItem(object, id);
   if (!current) {
-    rtn = exception("SimpleStorage: ["+object+"]", "Invalid [id]", 400);
+    args.title = "SimpleStorage: ["+object+"]";
+    args.detail = "Invalid [id]";
+    args.code = 400;
+    rtn = exception(args);
     return rtn;
   }
    
@@ -205,7 +231,12 @@ function updateItem(object, item, id) {
     fs.writeFileSync(folder + object + '/' + id, JSON.stringify(current));
     rtn = getItem(object, id);
   } catch (ex) {
-    rtn = exception("SimpleStorage: ["+object+"]", ex.message,400);
+    args = {};
+    args.title = "SimpleStorage: ["+object+"]";
+    args.detail = "Unable to update item";
+    args.code = 400;
+    args.debug = ex.message;
+    rtn = exception(args);
   }
 
   return rtn;
@@ -236,14 +267,16 @@ function makeId() {
 }
 
 // craft an exception msg
-function exception(name, message, code, type, url) {
+function exception(args) {
+//function exception(name, message, code, type, url, debug) {
   var rtn = {};
 
-  rtn.type = (type||"error");
-  rtn.title = (name||"Error");
-  rtn.detail = (message||name);
-  rtn.status = (code||"400");
-  if(url) {rtn.instance = url};
+  rtn.type = (args.type||"error");
+  rtn.title = (args.title||"Error");
+  rtn.detail = (args.detail||name);
+  rtn.status = (args.code||"400");
+  if(args.url) {rtn.instance = args.url};
+  if(args.debug) {rtn.debug = args.debug};
 
   return rtn;
 }

@@ -251,12 +251,13 @@ exports.handler = function(req, res, fn, type, representation){
   metadata = tagFilter(metadata,filter);
     
   fn(req,res).then(function(body) {
+    console.log(body);
     if(jsUtil.isArray(body)===true) {
       oType = type||"collection";
       if(body.length!==0 && body[0].type && body[0].type==="error") {
         xr.push(exception(
           body[0].name,
-          body[0].message,
+          body[0].detail,
           body[0].code,
           body[0].oType,
           'http://' + req.headers.host + req.url
