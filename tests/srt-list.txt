@@ -1,5 +1,6 @@
 # person api test requests
 # 2020-02 mamund
+
 http://localhost:8181/
 http://localhost:8181/list/
 http://localhost:8181/filter?status=active
@@ -8,3 +9,4 @@ http://localhost:8181/q1w2e3r4 -X PUT -d givenName=Mike&familyName=Mork&telephon
 http://localhost:8181/status/q1w2e3r4 -X PATCH -d status=active
 http://localhost:8181/q1w2e3r4 -X DELETE
 
+# EOF
