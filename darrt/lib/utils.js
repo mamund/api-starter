@@ -84,7 +84,7 @@ exports.errorResponse = function(req, res, msg, code, description) {
   doc = {};
   doc.error = {};
   doc.error.code = code;
-  doc.error.message = msg;
+  doc.error.message = msg||description;
   doc.error.url = 'http://' + req.headers.host + req.url;
   if (description) {
     doc.error.description = description;
@@ -208,7 +208,7 @@ exports.exception = function(name, message, code, type, url) {
 
   rtn.type = (type||"error");
   rtn.title = (name||"Error");
-  rtn.detail = (message||rtn.name);
+  rtn.detail = (message||name);
   rtn.status = (code||400).toString();
   if(url) {rtn.instance = url};
 

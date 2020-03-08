@@ -85,10 +85,12 @@ function main(args) {
   });
 }
 
-function addEntry(elm, entry, props, reqd, enums) {
+function addEntry(elm, entry, props, reqd, enums, defs) {
   var rtn, item, error, id;
  
   item = {}
+  
+  // ensure correct properties
   for(i=0,x=props.length;i<x;i++) {
     if(props[i]!=="id") {
       item[props[i]] = (entry[props[i]]||"");
@@ -98,16 +100,25 @@ function addEntry(elm, entry, props, reqd, enums) {
     }
   }
   
+  // fix up any missing defaults
+  for(i=0,x=defs.length;i<x;i++) {
+    if(item[defs[i].name]==="") {
+      item[defs[i].name] = defs[i].value;
+    }
+  }
+    
   error = "";
+  
+  // check for missing properties
   for(i=0,x=reqd.length;i<x;i++) {
     if(item[reqd[i]]==="") {
       error += "Missing "+ reqd[i] + " ";
     }
   }
 
+  // validate enumerated properties
   for(i=0,x=enums.length;i<x;i++) {
     for(var key in enums[i]) {
-      //console.log(key);
     }
     if(item[key]!=="") {
       if(enums[i][key].indexOf(item[key])===-1) {
@@ -115,7 +126,8 @@ function addEntry(elm, entry, props, reqd, enums) {
       }
     }
   }
-  
+
+  // respond w/ errors or commit to storage  
   if(error.length!==0) {
     rtn = utils.exception(error);
   }
@@ -157,7 +169,6 @@ function updateEntry(elm, id, entry, props, reqd, enums) {
 
     for(i=0,x=enums.length;i<x;i++) {
       for(var key in enums[i]) {
-        //console.log(key);
       }
       if(item[key]!=="") {
         if(enums[i][key].indexOf(item[key])===-1) {

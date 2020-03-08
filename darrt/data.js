@@ -5,7 +5,6 @@
 // 2020-02-01 : mamund
 // ****************************************
 
-
 // this service's message properties
 // you MUST include id, dateCreated, and dateUpdated
 exports.props = [
@@ -27,3 +26,7 @@ exports.enums = [
   {status:['pending','active','suspended','closed']}
 ];
 
+// default values for properties
+exports.defs = [
+  {name:"status",value:"pending"}
+]

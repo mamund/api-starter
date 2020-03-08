@@ -50,7 +50,8 @@ module.exports.create = function(req,res) {
           item:body,
           props:data.props,
           reqd:data.reqd, 
-          enums:data.enums
+          enums:data.enums,
+          defs:data.defs
         }
        )
      );
@@ -96,14 +97,19 @@ module.exports.update = function(req,res) {
     id = req.params.id||null;
     body = req.body||null;
     if(id!==null && body!==null) {
-       resolve(component(
-         {name:object,
+       resolve(
+        component(
+         {
+          name:object,
           action:'update',
           id:id,
           item:body,
           props:data.props,
           reqd:data.reqd,
-          enums:data.enums}));
+          enums:data.enums
+         }
+        )  
+       );
      }
      else {
        reject({error:"missing id and/or body"});
