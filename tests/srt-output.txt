@@ -35,17 +35,6 @@ http://localhost:8181/
                   ,"dateCreated" : "2020-02-22T15:01:07.083Z"
                   ,"dateUpdated" : "2020-02-22T15:01:38.675Z"
               }
-              ,
-              {
-                  "id" : "ac3wcyd35os"
-                  ,"givenName" : ""
-                  ,"familyName" : ""
-                  ,"telephone" : ""
-                  ,"email" : "test@example.org&#39;"
-                  ,"status" : "pending"
-                  ,"dateCreated" : "2020-02-22T18:10:23.392Z"
-                  ,"dateUpdated" : "2020-02-22T18:10:23.392Z"
-              }
           ]
        }
     http://localhost:8181/filter?status=active
@@ -75,8 +64,8 @@ http://localhost:8181/
                   ,"telephone" : ""
                   ,"email" : "test@example.org"
                   ,"status" : "pending"
-                  ,"dateCreated" : "2020-02-29T23:57:58.080Z"
-                  ,"dateUpdated" : "2020-02-29T23:57:58.080Z"
+                  ,"dateCreated" : "2020-03-08T22:11:10.560Z"
+                  ,"dateUpdated" : "2020-03-08T22:11:10.560Z"
               }
           ]
        }
@@ -91,8 +80,8 @@ http://localhost:8181/
                   ,"telephone" : "123-456-7890"
                   ,"email" : "test@example.org"
                   ,"status" : "pending"
-                  ,"dateCreated" : "2020-02-29T23:57:58.080Z"
-                  ,"dateUpdated" : "2020-02-29T23:57:58.097Z"
+                  ,"dateCreated" : "2020-03-08T22:11:10.560Z"
+                  ,"dateUpdated" : "2020-03-08T22:11:10.577Z"
               }
           ]
        }
@@ -107,8 +96,8 @@ http://localhost:8181/
                   ,"telephone" : "123-456-7890"
                   ,"email" : "test@example.org"
                   ,"status" : "active"
-                  ,"dateCreated" : "2020-02-29T23:57:58.080Z"
-                  ,"dateUpdated" : "2020-02-29T23:57:58.112Z"
+                  ,"dateCreated" : "2020-03-08T22:11:10.560Z"
+                  ,"dateUpdated" : "2020-03-08T22:11:10.589Z"
               }
           ]
        }
@@ -136,17 +125,6 @@ http://localhost:8181/
                   ,"status" : "active"
                   ,"dateCreated" : "2020-02-22T15:01:07.083Z"
                   ,"dateUpdated" : "2020-02-22T15:01:38.675Z"
-              }
-              ,
-              {
-                  "id" : "ac3wcyd35os"
-                  ,"givenName" : ""
-                  ,"familyName" : ""
-                  ,"telephone" : ""
-                  ,"email" : "test@example.org&#39;"
-                  ,"status" : "pending"
-                  ,"dateCreated" : "2020-02-22T18:10:23.392Z"
-                  ,"dateUpdated" : "2020-02-22T18:10:23.392Z"
               }
           ]
        }

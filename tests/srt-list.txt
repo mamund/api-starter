@@ -1,6 +1,7 @@
 # person api test requests
 # 2020-02 mamund
 
+# happy path
 http://localhost:8181/
 http://localhost:8181/list/
 http://localhost:8181/filter?status=active
@@ -9,4 +10,9 @@ http://localhost:8181/q1w2e3r4 -X PUT -d givenName=Mike&familyName=Mork&telephon
 http://localhost:8181/status/q1w2e3r4 -X PATCH -d status=active
 http://localhost:8181/q1w2e3r4 -X DELETE
 
+# sad path
+http://localhost:8181/12345 -X DELETE 
+http://localhost:8181/ -X POST -d id=12345&email=missing@example.org&hatSize=4.5
+http://localhost:8181/ -X POST -d id=12345&email=testing@example.org
+http://localhost:8181/23456 -X GET 
 # EOF
