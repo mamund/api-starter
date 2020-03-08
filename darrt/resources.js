@@ -21,9 +21,10 @@ metadata = [
 
 // optional tracking middleware
 router.use(function timeLog (req, res, next) {
-  console.log('Time: ', Date.now() + " : " + req.headers.host + req.url)
+  console.log('Time: ', Date.now() + " : " + req.headers.host + req.url + " : " + req.method + " : " + JSON.stringify(req.body))
   next()
 });
+
 
 /************************************************************************/
 
