@@ -244,7 +244,7 @@ function updateItem(object, item, id) {
 
 // remove the item
 function removeItem(object, id) {
-  var rtn;
+  var rtn, args;
 
   try {
     fs.unlinkSync(folder + object + '/' + id);
