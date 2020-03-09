@@ -121,7 +121,7 @@ function getItem(object, id, fields) {
     args.debug = ex.message;
     rtn = exception(args);
   }
-
+  
   rtn = applyFields(rtn, fields);
 
   return rtn;
