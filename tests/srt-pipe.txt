@@ -1,0 +1,129 @@
+
+Simple Request Tests (SRTs)
+================================
+Tue Mar 10 14:59:38 EDT 2020
+
+reading input file: srt-list.txt...
+
+start API service...
+
+sleeping...
+
+> api-starter@1.0.0 dev /home/mca/projects/api-starter
+> nodemon index
+
+[33m[nodemon] 2.0.2[39m
+[33m[nodemon] to restart at any time, enter `rs`[39m
+[33m[nodemon] watching dir(s): *.*[39m
+[33m[nodemon] watching extensions: js,mjs,json[39m
+[32m[nodemon] starting `node index index.js`[39m
+listening on port 8181!
+
+start request run...
+
+http://localhost:8181/12345 -X DELETE 
+Time:  1583866783953 : localhost:8181/12345 : DELETE : {}
+      { 
+          "api" : 
+          [
+              {
+                  "id" : "6ikx46vifa"
+                  ,"givenName" : "Mandy"
+                  ,"familyName" : "Monk"
+                  ,"telephone" : "123-456-7890"
+                  ,"email" : "test@example.org"
+                  ,"status" : "pending"
+                  ,"dateCreated" : "2020-02-22T15:00:42.551Z"
+                  ,"dateUpdated" : "2020-02-22T15:01:07.100Z"
+              }
+              ,
+              {
+                  "id" : "7lban4p88ls"
+                  ,"givenName" : "Mary"
+                  ,"familyName" : "Manx"
+                  ,"telephone" : "123-456-7890"
+                  ,"email" : "test@example.org"
+                  ,"status" : "active"
+                  ,"dateCreated" : "2020-02-22T15:01:07.083Z"
+                  ,"dateUpdated" : "2020-02-22T15:01:38.675Z"
+              }
+          ]
+       }
+    
+http://localhost:8181/ -X POST -d id=12345
+Time:  1583866784067 : localhost:8181/ : POST : {"id":"12345"}
+{
+  "error": [
+    {
+      "type": "error",
+      "title": "Missing email ",
+      "detail": "Missing email ",
+      "status": "400",
+      "instance": "http://localhost:8181/"
+    }
+  ]
+}
+http://localhost:8181/ -X POST -d id=12345&email=sample@example.org
+Time:  1583866784126 : localhost:8181/ : POST : {"id":"12345","email":"sample@example.org"}
+      { 
+          "api" : 
+          [
+              {
+                  "id" : "12345"
+                  ,"givenName" : ""
+                  ,"familyName" : ""
+                  ,"telephone" : ""
+                  ,"email" : "sample@example.org"
+                  ,"status" : "pending"
+                  ,"dateCreated" : "2020-03-10T18:59:44.131Z"
+                  ,"dateUpdated" : "2020-03-10T18:59:44.131Z"
+              }
+          ]
+       }
+    
+http://localhost:8181/ -X POST -d id=12345&email=sample@example.org
+Time:  1583866784175 : localhost:8181/ : POST : {"id":"12345","email":"sample@example.org"}
+{
+  "error": [
+    {
+      "type": "error",
+      "title": "SimpleStorage: [api]",
+      "detail": "Record already exists",
+      "status": "400",
+      "instance": "http://localhost:8181/"
+    }
+  ]
+}
+http://localhost:8181/12345 -X PUT -d email=updated@example.org&hatSize=12.5
+Time:  1583866784215 : localhost:8181/12345 : PUT : {"email":"updated@example.org","hatSize":"12.5"}
+      { 
+          "api" : 
+          [
+              {
+                  "id" : "12345"
+                  ,"givenName" : ""
+                  ,"familyName" : ""
+                  ,"telephone" : ""
+                  ,"email" : "updated@example.org"
+                  ,"status" : "pending"
+                  ,"dateCreated" : "2020-03-10T18:59:44.131Z"
+                  ,"dateUpdated" : "2020-03-10T18:59:44.217Z"
+              }
+          ]
+       }
+    
+http://localhost:8181/23456 -X GET 
+Time:  1583866784262 : localhost:8181/23456 : GET : {}
+{
+  "error": [
+    {
+      "type": "error",
+      "title": "SimpleStorage: [api]",
+      "detail": "Not Found [23456]",
+      "status": "400",
+      "instance": "http://localhost:8181/23456"
+    }
+  ]
+}
+job completed.
+
