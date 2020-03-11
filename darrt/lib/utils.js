@@ -221,7 +221,7 @@ function exception(name, message, code, type, url) {
 
   rtn.type = (type||"error");
   rtn.title = (name||"Error");
-  rtn.detail = (message||rtn.name);
+  rtn.detail = (message||rtn.title);
   rtn.status = (code||400).toString();
   if(url) {rtn.instance = url};
 
@@ -255,9 +255,9 @@ exports.handler = function(req, res, fn, type, representation){
       oType = type||"collection";
       if(body.length!==0 && body[0].type && body[0].type==="error") {
         xr.push(exception(
-          body[0].name,
-          body[0].detail,
-          body[0].code,
+          body[0].name||body[0].title,
+          body[0].message||body[0].detail,
+          body[0].code||body[0].status,
           body[0].oType,
           'http://' + req.headers.host + req.url
         ));
@@ -272,9 +272,9 @@ exports.handler = function(req, res, fn, type, representation){
       oType = type||"item";
       if(body.type && body.type==='error') {
         xr.push(exception(
-          body.name,
+          body.name||body.title,
           body.detail,
-          body.code,
+          body.code||body.status,
           body.oType,
           'http://' + req.headers.host + req.url
         ));

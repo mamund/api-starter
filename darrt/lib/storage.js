@@ -1,5 +1,4 @@
 /*******************************************************
- * service: bigco customer records
  * module: darrt simple storage (via files)
  * Mike Amundsen (@mamund)
  *******************************************************/
@@ -122,7 +121,7 @@ function getItem(object, id, fields) {
     args.debug = ex.message;
     rtn = exception(args);
   }
-
+  
   rtn = applyFields(rtn, fields);
 
   return rtn;
@@ -268,12 +267,11 @@ function makeId() {
 
 // craft an exception msg
 function exception(args) {
-//function exception(name, message, code, type, url, debug) {
   var rtn = {};
 
   rtn.type = (args.type||"error");
   rtn.title = (args.title||"Error");
-  rtn.detail = (args.detail||name);
+  rtn.detail = (args.detail||args.title);
   rtn.status = (args.code||"400");
   if(args.url) {rtn.instance = args.url};
   if(args.debug) {rtn.debug = args.debug};
