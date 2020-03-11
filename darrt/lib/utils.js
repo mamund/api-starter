@@ -251,7 +251,6 @@ exports.handler = function(req, res, fn, type, representation){
   metadata = tagFilter(metadata,filter);
     
   fn(req,res).then(function(body) {
-    console.log(body);
     if(jsUtil.isArray(body)===true) {
       oType = type||"collection";
       if(body.length!==0 && body[0].type && body[0].type==="error") {
@@ -293,7 +292,14 @@ exports.handler = function(req, res, fn, type, representation){
     }
     else {
       var reply = "";
-      rtn = {rtn:rtn,type:oType, pForms:pForms,iForms:iForms, metadata:metadata, helpers:ejsHelper, request:req};
+      rtn = {rtn:rtn,
+        type:oType, 
+        pForms:pForms,
+        iForms:iForms, 
+        metadata:metadata, 
+        helpers:ejsHelper, 
+        request:req
+      };
       if(template.view!=="") {
         reply= ejs.render(template.view, rtn);
       }
