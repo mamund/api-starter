@@ -1,0 +1,28 @@
+{
+  "collections": [
+    {
+      "id": "2eeaa3ea-9bdf-4305-b68a-b774c858cb5c",
+      "name": "Company API Home Tests",
+      "owner": "48501",
+      "uid": "48501-2eeaa3ea-9bdf-4305-b68a-b774c858cb5c"
+    },
+    {
+      "id": "64e80640-e872-47e4-a8da-5a024410875f",
+      "name": "BigCo Person API",
+      "owner": "48501",
+      "uid": "48501-64e80640-e872-47e4-a8da-5a024410875f"
+    },
+    {
+      "id": "b5a067c1-3afc-484a-b328-12169e20bbab",
+      "name": "Credit-Check",
+      "owner": "48501",
+      "uid": "48501-b5a067c1-3afc-484a-b328-12169e20bbab"
+    },
+    {
+      "id": "e8b3b37c-13ab-4eb9-9070-466bd8552699",
+      "name": "BigCo Company API",
+      "owner": "48501",
+      "uid": "48501-e8b3b37c-13ab-4eb9-9070-466bd8552699"
+    }
+  ]
+}

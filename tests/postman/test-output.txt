@@ -1,0 +1,142 @@
+newman
+
+BigCo Person API
+
+❏ happy-path
+↳ Home
+  GET localhost:8181 [200 OK, 520B, 83ms]
+  ✓  Status is 200
+  ✓  Header content-type contains application/json
+  ✓  Valid home object
+  ✓  home has property id set to list
+  ✓  home has property name set to api-starter
+  ✓  home has property rel set to api
+  ✓  home has property rel set to collection
+
+↳ List
+  GET localhost:8181/list [200 OK, 1.12KB, 14ms]
+  ✓  Status is 200
+  ✓  Header content-type contains application/json
+  ✓  Valid api object
+
+↳ Filter
+  GET localhost:8181/filter?status=active [200 OK, 722B, 8ms]
+  ✓  Status is 200
+  ✓  Header content-type contains application/json
+  ✓  Valid api object
+  ✓  api has property status set to active
+
+↳ Create
+  POST localhost:8181 [200 OK, 708B, 21ms]
+  ✓  Status is 200
+  ✓  Header content-type contains application/json
+  ✓  Valid api object
+  ✓  api has property id set to 8l1ikw6mec
+  ✓  api has property email set to mundy-merril@gmail.com
+  ✓  api has property status set to pending
+
+↳ Update
+  PUT localhost:8181/8l1ikw6mec [200 OK, 731B, 13ms]
+  ✓  Status is 200
+  ✓  Header content-type contains application/json
+  ✓  Valid api object
+  ✓  api has property givenName set to Mundy
+  ✓  api has property familyName set to Merril
+  ✓  api has property telephone set to 123-456-7890
+
+↳ Read
+  GET localhost:8181/8l1ikw6mec [200 OK, 731B, 9ms]
+  ✓  Status is 200
+  ✓  Header content-type contains application/json
+  ✓  Valid api object
+  ✓  api has property id set to 8l1ikw6mec
+  ✓  api has property email set to mundy-merril@gmail.com
+  ✓  api has property status set to pending
+  ✓  api has property givenName set to Mundy
+  ✓  api has property familyName set to Merril
+  ✓  api has property telephone set to 123-456-7890
+
+↳ Status
+  PATCH localhost:8181/status/8l1ikw6mec [200 OK, 730B, 10ms]
+  ✓  Status is 200
+  ✓  Header content-type contains application/json
+  ✓  Valid api object
+  ✓  api has property status set to active
+
+↳ Remove
+  DELETE localhost:8181/8l1ikw6mec [200 OK, 1.12KB, 10ms]
+  ✓  Status is 200
+  ✓  Header content-type contains application/json
+  ✓  Valid api object
+
+❏ sad-path
+↳ Read (bad id)
+  GET localhost:8181/xxx [400 Bad Request, 460B, 5ms]
+  ✓  Status is 400
+  ✓  Header content-type contains application/problem+json
+  ✓  Valid error object
+  ✓  error has property type set to error
+  ✓  error has property detail set to Not Found
+  ✓  error has property status set to 400
+
+↳ Create (missing email)
+  POST localhost:8181 [400 Bad Request, 450B, 9ms]
+  ✓  Status is 400
+  ✓  Header content-type contains application/problem+json
+  ✓  Valid error object
+  ✓  error has property type set to error
+  ✓  error has property detail set to Missing email
+  ✓  error has property status set to 400
+
+↳ Create (good)
+  POST localhost:8181 [200 OK, 709B, 5ms]
+  ✓  Status is 200
+  ✓  Header content-type contains application/json
+  ✓  Valid api object
+  ✓  api has property id set to 2hlekmxomfg
+  ✓  api has property email set to mundy-merril@gmail.com
+  ✓  api has property status set to pending
+
+↳ Create (duplicate)
+  POST localhost:8181 [400 Bad Request, 463B, 6ms]
+  ✓  Status is 400
+  ✓  Header content-type contains application/problem+json
+  ✓  Valid error object
+  ✓  error has property type set to error
+  ✓  error has property detail set to already exists
+  ✓  error has property status set to 400
+
+↳ Status (invalid enum)
+  PATCH localhost:8181/status/2hlekmxomfg [400 Bad Request, 519B, 7ms]
+  ✓  Status is 400
+  ✓  Header content-type contains application/problem+json
+  ✓  Valid error object
+  ✓  error has property type set to error
+  ✓  error has property detail set to Invalid enumerator
+  ✓  error has property status set to 400
+
+↳ Remove (good)
+  DELETE localhost:8181/2hlekmxomfg [200 OK, 1.12KB, 8ms]
+  ✓  Status is 200
+  ✓  Header content-type contains application/json
+  ✓  Valid api object
+
+┌─────────────────────────┬──────────────────┬──────────────────┐
+│                         │         executed │           failed │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│              iterations │                1 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│                requests │               14 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│            test-scripts │               28 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│      prerequest-scripts │               23 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│              assertions │               75 │                0 │
+├─────────────────────────┴──────────────────┴──────────────────┤
+│ total run duration: 1061ms                                    │
+├───────────────────────────────────────────────────────────────┤
+│ total data received: 6.53KB (approx)                          │
+├───────────────────────────────────────────────────────────────┤
+│ average response time: 14ms [min: 5ms, max: 83ms, s.d.: 19ms] │
+└───────────────────────────────────────────────────────────────┘

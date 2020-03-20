@@ -1,0 +1,22 @@
+Not disabling GPU
+Main~createDefaultWorkingDir - Default working dir creation already attempted
+1584678799934 main info "Booting Postman 7.20.1, linux-4.19.87-07826-g55ab70aff690 on x64"
+1584678799935 main info "EventBus~initialize - Success"
+1584678799951 main info "UpdateHandler~init - Success"
+1584678799959 main info "RuntimeExecutionService~initialized: Success"
+1584678799962 main info "LinuxAutoUpdater~Cleanup - Initial cleanup successful"
+1584678800332 main info "Bootstrap-models~bootstrap - Success"
+1584678800925 main info "window-manager~newSharedWindow: Shell loaded"
+1584678803303 main info "Main~AppEvents - Received booted event for process shared"
+1584678808361 main info "UpdateHandler~app-update-events - Received event",{"name":"checkForElectronVersionUpdated","namespace":"appUpdate"}
+INTERCEPTOR CONNECTIVITY: Connecting to Interceptor Bridge
+InterceptorBridge: Trying to connect Native App IPC~Interceptor Bridge
+1584678808392 main info "Main~AppEvents - Received booted event for process requester"
+1584679750304 main info "Main~AppEvents - Received booted event for process runner"
+1584679762100 main info "WindowManager~closeHandler - Closed Window (id: 4 )"
+1584681269940 main info "Main~AppEvents - Received booted event for process runner"
+1584681283164 main info "WindowManager~closeHandler - Closed Window (id: 5 )"
+1584683306035 main info "Main~AppEvents - Received booted event for process runner"
+1584683317509 main info "WindowManager~closeHandler - Closed Window (id: 6 )"
+1584683921686 main info "Main~AppEvents - Received booted event for process runner"
+1584683931082 main info "WindowManager~closeHandler - Closed Window (id: 7 )"
