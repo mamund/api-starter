@@ -24,7 +24,6 @@ exports.stateValue = function(val, state, request, def) {
   pxy = (req.get && req.get("proxy-prefix") ? req.get("proxy-prefix") : "");
   hst = (req.get && req.get("host") ? req.get("host") : "");
   aty = (pxy !== "" ? pxy : hst);
-  dte = new Date();
 
   // handle special macros
   if(v.indexOf("{makeid}")!==-1) {
