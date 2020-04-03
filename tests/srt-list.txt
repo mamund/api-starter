@@ -20,6 +20,7 @@ http://localhost:8181/ -X POST -d id=12345&email=sample@example.org
 http://localhost:8181/ -X POST -d id=12345&email=sample@example.org
 http://localhost:8181/12345 -X PUT -d email=updated@example.org&hatSize=12.5
 http://localhost:8181/23456 -X GET 
+http://localhost:8181/12345 -X DELETE 
 
 #
 # EOF
