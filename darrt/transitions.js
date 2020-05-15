@@ -47,6 +47,7 @@
        method:"GET",
        properties:[
          {name:"status",value:""},
+	 {name:"email",value:""},
          {name:"familyName",value:""}
        ]
      },

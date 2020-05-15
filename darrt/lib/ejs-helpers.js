@@ -42,7 +42,7 @@ exports.stateValue = function(val, state, request, def) {
     v = v.replace("{date}", fDate());
     x=1;
   }
- 
+
   // handle named properties
   for(s in st) {
     if(v.indexOf('{'+s+'}')!==-1) {

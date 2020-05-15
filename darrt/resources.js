@@ -17,7 +17,7 @@ metadata = [
   {name: "title", value: "BigCo Activity Records"},
   {name: "author", value: "Mike Amundsen"},
   {name: "release", value: "1.0.0"},
-  {name: "date", value: "{date}"},
+  {name: "generated", value: "{date}"}, 
   {name: "url", value: "{fullhost}"}
 ];
 
